@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roses & Champagne — Feliz Cumpleaños Helen</title>
+  
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=UnifrakturCook:wght@700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       VARIABLES Y PALETA DE COLORES OFICIAL
+       ========================================================================== */
+    :root {
+      --rose-red: #9E1B32;
+      --rose-red-glow: #c72242;
+      --almost-black: #0D0D10;
+      --deep-navy: #1B2A41;
+      --champagne-gold: #D9BF84;
+      --champagne-bright: #f0d69e;
+      --frozen-silver: #B8BEC6;
+      --text-light: #E8EBF0;
+      --card-bg: rgba(13, 13, 16, 0.85);
+      
+      --font-gothic: 'UnifrakturCook', 'UnifrakturMaguntia', serif;
+      --font-display: 'Cinzel Decorative', 'Cinzel', serif;
+      --font-sub: 'Cinzel', serif;
+      --font-body: 'Alegreya', Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--almost-black);
+      color: var(--text-light);
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      line-height: 1.8;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Fondo animado de nieve y destellos */
+    #snow-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: 
+        radial-gradient(circle at 50% 20%, rgba(158, 27, 50, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(27, 42, 65, 0.4) 0%, transparent 65%),
+        radial-gradient(circle at 20% 70%, rgba(217, 191, 132, 0.08) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(13, 13, 16, 0.8) 0%, rgba(13, 13, 16, 0.95) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Layout Principal */
+    .app-container {
+      position: relative;
+      z-index: 2;
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 5rem 1.5rem;
+    }
+
+    /* ==========================================================================
+       ENCABEZADO EDITORIAL
+       ========================================================================== */
+    .main-header {
+      text-align: center;
+      padding: 3rem 1rem 2.5rem 1rem;
+      position: relative;
+    }
+
+    .gothic-title {
+      font-family: var(--font-gothic);
+      font-size: clamp(3.2rem, 9vw, 6rem);
+      font-weight: 700;
+      color: var(--text-light);
+      text-shadow: 
+        0 0 20px rgba(158, 27, 50, 0.8),
+        0 0 35px rgba(0, 0, 0, 0.9),
+        0 0 5px var(--champagne-gold);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Contenedor ovalado único */
+    .birthday-oval-badge {
+      display: inline-block;
+      padding: 0.6rem 2.5rem;
+      border: 2px solid var(--champagne-gold);
+      border-radius: 50px;
+      background: rgba(158, 27, 50, 0.2);
+      box-shadow: 
+        0 0 15px rgba(217, 191, 132, 0.3),
+        inset 0 0 15px rgba(158, 27, 50, 0.4);
+      margin-bottom: 2rem;
+      backdrop-filter: blur(5px);
+    }
+
+    .birthday-oval-badge span {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 3.5vw, 1.4rem);
+      color: var(--champagne-bright);
+      letter-spacing: 0.12em;
+      text-transform: capitalize;
+    }
+
+    /* Cita de Alexander Pushkin */
+    .pushkin-quote-box {
+      max-width: 750px;
+      margin: 0 auto 2rem auto;
+      padding: 1.5rem;
+      border-left: 3px solid var(--champagne-gold);
+      border-right: 3px solid var(--champagne-gold);
+      background: linear-gradient(90deg, rgba(27, 42, 65, 0.3) 0%, rgba(158, 27, 50, 0.15) 50%, rgba(27, 42, 65, 0.3) 100%);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .pushkin-quote-russian {
+      font-family: var(--font-sub);
+      font-size: 1.15rem;
+      color: var(--champagne-bright);
+      margin-bottom: 0.5rem;
+      font-style: italic;
+    }
+
+    .pushkin-quote-spanish {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--frozen-silver);
+      font-style: italic;
+    }
+
+    /* ==========================================================================
+       TARJETAS Y SECCIONES
+       ========================================================================== */
+    .gothic-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(217, 191, 132, 0.3);
+      padding: 3rem 2.5rem;
+      margin-bottom: 3.5rem;
+      position: relative;
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.8),
+        inset 0 0 50px rgba(0, 0, 0, 0.9),
+        0 0 2px 1px rgba(158, 27, 50, 0.3);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Esquinas ornamentales */
+    .corner-ornament {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--champagne-gold);
+    }
+    .top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+    .top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+    .bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+    .bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+    .section-title-wrap {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      color: var(--champagne-gold);
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+    }
+
+    .section-subtitle {
+      font-family: var(--font-sub);
+      font-size: 1.1rem;
+      color: var(--rose-red-glow);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    /* ==========================================================================
+       SECCIÓN: CAESAR ALEXANDROVICH & ARTE
+       ========================================================================== */
+    .caesar-flex-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .caesar-flex-container {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+
+    .manhwa-art-frame {
+      flex: 1;
+      max-width: 350px;
+      width: 100%;
+      border: 2px solid var(--champagne-gold);
+      padding: 8px;
+      background: var(--deep-navy);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+      text-align: center;
+    }
+
+    .manhwa-art-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: grayscale(20%) contrast(110%);
+    }
+
+    .art-credit-label {
+      font-family: var(--font-sub);
+      font-size: 0.75rem;
+      color: var(--frozen-silver);
+      margin-top: 8px;
+      letter-spacing: 0.05em;
+      font-style: italic;
+    }
+
+    .caesar-quotes-list {
+      flex: 1.3;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .caesar-quote-card {
+      background: rgba(27, 42, 65, 0.4);
+      border-left: 3px solid var(--rose-red);
+      padding: 1.2rem 1.5rem;
+      position: relative;
+    }
+
+    .caesar-quote-ru {
+      font-family: var(--font-sub);
+      font-size: 1.1rem;
+      color: var(--champagne-bright);
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+
+    .caesar-quote-es {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--frozen-silver);
+      font-style: italic;
+    }
+
+    /* ==========================================================================
+       SECCIÓN: HAGAMOS UN BRINDIS
+       ========================================================================== */
+    .toast-message-box {
+      background: linear-gradient(135deg, rgba(27, 42, 65, 0.6) 0%, rgba(158, 27, 50, 0.3) 100%);
+      border: 1px solid var(--champagne-gold);
+      padding: 2rem;
+      border-radius: 4px;
+      margin-bottom: 2.5rem;
+      position: relative;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    .toast-message-text {
+      font-size: 1.2rem;
+      line-height: 1.9;
+      color: var(--text-light);
+      text-align: justify;
+    }
+
+    .toast-action-area {
+      text-align: center;
+    }
+
+    .champagne-btn {
+      background: linear-gradient(180deg, var(--rose-red) 0%, #6e1021 100%);
+      color: var(--champagne-bright);
+      border: 2px solid var(--champagne-gold);
+      padding: 1.2rem 3rem;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 5px 20px rgba(158, 27, 50, 0.6);
+    }
+
+    .champagne-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(217, 191, 132, 0.5);
+      background: linear-gradient(180deg, #b8223d 0%, var(--rose-red) 100%);
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       SECCIÓN: LA CABAÑA EN LA TORMENTA DE NIEVE (HOMENAJE A LA ILÍADA)
+       ========================================================================== */
+    .cabin-container {
+      text-align: center;
+      position: relative;
+    }
+
+    .wax-seal-wrapper {
+      margin: 2rem 0;
+      cursor: pointer;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .wax-seal-wrapper:hover {
+      transform: scale(1.05);
+    }
+
+    .wax-seal-btn {
+      width: 90px;
+      height: 90px;
+      background: radial-gradient(circle, #b8223d 0%, var(--rose-red) 60%, #520b17 100%);
+      border-radius: 50%;
+      border: 3px dashed var(--champagne-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(158, 27, 50, 0.8), inset 0 0 10px rgba(0,0,0,0.8);
+      margin: 0 auto;
+    }
+
+    .wax-seal-btn svg {
+      width: 45px;
+      height: 45px;
+      fill: var(--champagne-bright);
+    }
+
+    .seal-click-hint {
+      font-family: var(--font-sub);
+      font-size: 0.9rem;
+      color: var(--champagne-gold);
+      margin-top: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .secret-scroll {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(13, 13, 16, 0.95);
+      border: 1px solid var(--champagne-gold);
+      padding: 0 2rem;
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    .secret-scroll.open {
+      max-height: 1000px;
+      opacity: 1;
+      padding: 2.5rem 2rem;
+    }
+
+    .scroll-salutation {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--champagne-gold);
+      margin-bottom: 1rem;
+    }
+
+    .scroll-body {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+
+    .scroll-signature {
+      font-family: var(--font-gothic);
+      font-size: 1.8rem;
+      color: var(--rose-red-glow);
+      text-align: right;
+    }
+
+    /* ==========================================================================
+       TAROT GÓTICO (IMPERIUM, STELLA, FATUM)
+       ========================================================================== */
+    .tarot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .tarot-card {
+      height: 380px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .tarot-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+    }
+
+    .tarot-card.flipped .tarot-inner {
+      transform: rotateY(180deg);
+    }
+
+    .tarot-front, .tarot-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border: 2px solid var(--champagne-gold);
+      border-radius: 6px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    }
+
+    .tarot-front {
+      background: linear-gradient(135deg, var(--deep-navy) 0%, var(--almost-black) 100%);
+    }
+
+    .tarot-icon {
+      width: 60px;
+      height: 60px;
+      fill: var(--champagne-gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .tarot-latin-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--champagne-bright);
+      letter-spacing: 0.15em;
+    }
+
+    .tarot-tap-hint {
+      font-family: var(--font-sub);
+      font-size: 0.8rem;
+      color: var(--frozen-silver);
+      margin-top: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .tarot-back {
+      background: linear-gradient(135deg, rgba(158, 27, 50, 0.9) 0%, var(--almost-black) 100%);
+      transform: rotateY(180deg);
+    }
+
+    .tarot-back-text {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       PIE DE PÁGINA
+       ========================================================================== */
+    .main-footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      border-top: 1px solid rgba(217, 191, 132, 0.2);
+      font-family: var(--font-sub);
+      font-size: 0.9rem;
+      color: var(--frozen-silver);
+    }
+
+    /* Ajustes para móviles */
+    @media (max-width: 600px) {
+      .gothic-card { padding: 2rem 1.2rem; }
+      .toast-message-text { font-size: 1.05rem; }
+    }
+
+    /* ==========================================================================
+       PANTALLA DE BIENVENIDA / ENTRADA INTERACTIVA
+       ========================================================================== */
+    .welcome-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, #1b2a41 0%, #0d0d10 90%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+
+    .welcome-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .welcome-card {
+      background: rgba(13, 13, 16, 0.92);
+      border: 2px solid var(--champagne-gold);
+      padding: 3.5rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 50px rgba(158, 27, 50, 0.6), inset 0 0 30px rgba(0,0,0,0.9);
+      max-width: 580px;
+      width: 90%;
+      position: relative;
+    }
+
+    .welcome-title {
+      font-family: var(--font-gothic);
+      font-size: clamp(2.8rem, 7vw, 4.5rem);
+      color: var(--champagne-bright);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 20px rgba(158, 27, 50, 0.9), 0 0 10px var(--champagne-gold);
+    }
+
+    .welcome-subtitle {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      color: var(--rose-red-glow);
+      letter-spacing: 0.15em;
+      margin-bottom: 2.2rem;
+    }
+
+    .welcome-btn {
+      background: linear-gradient(180deg, var(--rose-red) 0%, #520b17 100%);
+      color: var(--champagne-bright);
+      border: 2px solid var(--champagne-gold);
+      padding: 1.2rem 2.8rem;
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 50px;
+      box-shadow: 0 0 25px rgba(217, 191, 132, 0.4);
+      transition: all 0.4s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .welcome-btn:hover {
+      transform: scale(1.06);
+      background: linear-gradient(180deg, #c72242 0%, var(--rose-red) 100%);
+      box-shadow: 0 0 40px rgba(217, 191, 132, 0.8);
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       REPRODUCTOR DE MÚSICA FLOTANTE
+       ========================================================================== */
+    .music-player-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      background: rgba(13, 13, 16, 0.93);
+      border: 1.5px solid var(--champagne-gold);
+      border-radius: 40px;
+      padding: 0.6rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(158, 27, 50, 0.5);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    .music-disc {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--champagne-gold) 20%, #0d0d10 21%, #0d0d10 40%, var(--rose-red) 41%, #3a000a 100%);
+      border: 2px solid var(--champagne-bright);
+      animation: spinDisc 6s linear infinite;
+      animation-play-state: paused;
+      box-shadow: 0 0 10px rgba(217, 191, 132, 0.6);
+      flex-shrink: 0;
+    }
+
+    .music-player-widget.playing .music-disc {
+      animation-play-state: running;
+    }
+
+    @keyframes spinDisc {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .music-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .music-title {
+      font-family: var(--font-sub);
+      font-size: 0.85rem;
+      color: var(--champagne-bright);
+      font-weight: 600;
+      white-space: nowrap;
+      margin-bottom: 2px;
+    }
+
+    .music-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .music-btn {
+      background: transparent;
+      border: none;
+      color: var(--champagne-gold);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .music-btn:hover {
+      color: #ffffff;
+      transform: scale(1.2);
+    }
+
+    .music-progress-container {
+      width: 100px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .music-progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--champagne-gold), var(--rose-red-glow));
+      border-radius: 4px;
+      transition: width 0.1s linear;
+    }
+
+    /* ==========================================================================
+       LIGHTBOX / VISOR DE IMAGEN AMPLIA
+       ========================================================================== */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 5, 8, 0.95);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      padding: 1.5rem;
+    }
+
+    .lightbox-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 80vh;
+      border: 3px solid var(--champagne-gold);
+      box-shadow: 0 0 40px rgba(158, 27, 50, 0.8), 0 0 100px rgba(0, 0, 0, 0.9);
+      border-radius: 4px;
+      object-fit: contain;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .lightbox-modal.active .lightbox-content {
+      transform: scale(1);
+    }
+
+    .lightbox-caption {
+      margin-top: 1.2rem;
+      font-family: var(--font-display);
+      color: var(--champagne-bright);
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 25px;
+      right: 30px;
+      color: var(--champagne-gold);
+      font-size: 2.5rem;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .lightbox-close:hover {
+      color: #ffffff;
+      transform: scale(1.2) rotate(90deg);
+    }
+
+    .art-zoom-hint {
+      font-family: var(--font-sub);
+      font-size: 0.85rem;
+      color: var(--champagne-gold);
+      margin-top: 6px;
+      letter-spacing: 0.08em;
+      opacity: 0.85;
+      transition: opacity 0.2s ease, color 0.2s ease;
+    }
+
+    .manhwa-art-frame:hover .art-zoom-hint {
+      opacity: 1;
+      color: var(--rose-red-glow);
+    }
+
+    /* ==========================================================================
+       SECCIÓN: GALERÍA DE FOTOS
+       ========================================================================== */
+    .photo-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .photo-card-frame {
+      background: var(--deep-navy);
+      border: 2px solid var(--champagne-gold);
+      border-radius: 6px;
+      padding: 8px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(158, 27, 50, 0.3);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .photo-card-frame:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--champagne-bright);
+      box-shadow: 0 12px 30px rgba(217, 191, 132, 0.5), 0 0 20px rgba(158, 27, 50, 0.6);
+    }
+
+    .photo-card-img-wrap {
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .photo-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .photo-card-frame:hover .photo-card-img {
+      transform: scale(1.08);
+    }
+
+    .photo-card-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(13, 13, 16, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      color: var(--champagne-bright);
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 10px rgba(0,0,0,0.9);
+    }
+
+    .photo-card-frame:hover .photo-card-overlay {
+      opacity: 1;
+    }
+
+    /* Botones de navegación de Lightbox */
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(13, 13, 16, 0.75);
+      border: 2px solid var(--champagne-gold);
+      color: var(--champagne-bright);
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 10001;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+
+    .lightbox-nav:hover {
+      background: var(--rose-red);
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(217, 191, 132, 0.8);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .lightbox-prev { left: 25px; }
+    .lightbox-next { right: 25px; }
+
+    @media (max-width: 600px) {
+      .music-player-widget {
+        bottom: 12px;
+        right: 12px;
+        left: 12px;
+        justify-content: space-between;
+      }
+      .music-progress-container {
+        width: 75px;
+      }
+      .photo-gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+      }
+      .photo-card-img-wrap {
+        height: 180px;
+      }
+      .lightbox-prev { left: 10px; }
+      .lightbox-next { right: 10px; }
+      .lightbox-nav { width: 40px; height: 40px; font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA DE BIENVENIDA / ENTRADA INTERACTIVA -->
+  <div class="welcome-overlay" id="welcome-overlay">
+    <div class="welcome-card">
+      <div class="corner-ornament top-left"></div>
+      <div class="corner-ornament top-right"></div>
+      <div class="corner-ornament bottom-left"></div>
+      <div class="corner-ornament bottom-right"></div>
+
+      <h1 class="welcome-title">Roses & Champagne</h1>
+      <p class="welcome-subtitle">Para Helen — Celebración de 19 Años</p>
+      
+      <button class="welcome-btn" onclick="startExperience()">
+        <span>🌹</span> Iniciar la Experiencia & Escuchar Vals <span>🎶</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Lienzo interactivo de nieve y pétalos -->
+  <canvas id="snow-canvas"></canvas>
+  <div class="bg-overlay"></div>
+
+  <div class="app-container">
+
+    <!-- ENCABEZADO EDITORIAL -->
+    <header class="main-header">
+      <h1 class="gothic-title">Roses & Champagne</h1>
+      
+      <!-- Único contenedor ovalado -->
+      <div class="birthday-oval-badge">
+        <span>Feliz cumpleaños Helen</span>
+      </div>
+
+      <!-- Cita real de Alexander Pushkin sobre la amistad -->
+      <div class="pushkin-quote-box">
+        <p class="pushkin-quote-russian">"Друзья мои, прекрасен наш союз! Он как душа неразделим и вечен…"</p>
+        <p class="pushkin-quote-spanish">— А. С. Пушкин ("¡Amigos míos, qué hermosa es nuestra unión! Es indivisible y eterna como el alma…" — Alexander Pushkin)</p>
+      </div>
+    </header>
+
+    <!-- SECCIÓN 1: CAESAR ALEXANDROVICH & CITA REALES -->
+    <article class="gothic-card">
+      <div class="corner-ornament top-left"></div>
+      <div class="corner-ornament top-right"></div>
+      <div class="corner-ornament bottom-left"></div>
+      <div class="corner-ornament bottom-right"></div>
+
+      <div class="section-title-wrap">
+        <h2 class="section-title">Caesar Alexandrovich Sergeyev</h2>
+        <p class="section-subtitle">Líneas del Manhwa</p>
+      </div>
+
+      <div class="caesar-flex-container">
+        <!-- Arte / Ilustración -->
+        <div class="manhwa-art-frame" onclick="openLightboxByIndex(0)" style="cursor: pointer;">
+          <img src="Imagen 1.jpg" alt="Caesar Alexandrovich Sergeyev" class="manhwa-art-img">
+          <p class="art-zoom-hint">🔍 Haz clic para ampliar imagen</p>
+          <p class="art-credit-label">Ilustración de ZIG / Lezhin Comics — Roses and Champagne</p>
+        </div>
+
+        <!-- Lista de Citas Auténticas -->
+        <div class="caesar-quotes-list">
+          <div class="caesar-quote-card">
+            <p class="caesar-quote-ru">"Если я умру прямо сейчас, обнимая тебя, я попаду в рай."</p>
+            <p class="caesar-quote-es">("Si muero en este mismo instante abrazándote, iré al cielo.")</p>
+          </div>
+
+          <div class="caesar-quote-card">
+            <p class="caesar-quote-ru">"Я только что увидел нечто очень эротическое во время прогулки."</p>
+            <p class="caesar-quote-es">("Acabo de ver algo muy erótico durante mi paseo.")</p>
+          </div>
+
+          <div class="caesar-quote-card">
+            <p class="caesar-quote-ru">"День, который, как я думал, станет катастрофическим, на самом деле оказался днем, когда судьба взяла меня за руку."</p>
+            <p class="caesar-quote-es">("El día que pensé que sería desastroso resultó ser el día en que el destino me tomó de la mano.")</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECCIÓN 2: HAGAMOS UN BRINDIS -->
+    <article class="gothic-card">
+      <div class="corner-ornament top-left"></div>
+      <div class="corner-ornament top-right"></div>
+      <div class="corner-ornament bottom-left"></div>
+      <div class="corner-ornament bottom-right"></div>
+
+      <div class="section-title-wrap">
+        <h2 class="section-title">Hagamos un brindis</h2>
+        <p class="section-subtitle">Felicidades</p>
+      </div>
+
+      <div class="toast-message-box">
+        <p class="toast-message-text">
+          ¡Felices 19 años, Helen! Que la vida te llene de una sobredosis de felicidad, amor, comprensión, ternura y absolutamente todos los adjetivos bonitos que existan, porque te mereces todo lo bueno del mundo. Gracias por ser esa amiga incondicional que está siempre ahí, en las buenas, en las malas y en todas las demas. De verdad que aprecio tu amistad y espero seguir juntas por la eternidad; mi cariño por ti está al nivel de la devoción de Caesar, así que prepárate mentalmente para ello, con aprecio y cariño Genesis.
+        </p>
+      </div>
+
+      <div class="toast-action-area">
+        <button class="champagne-btn" id="pop-champagne-btn" onclick="celebratePop()">
+          🍾 Descorchar el Champán
+        </button>
+      </div>
+    </article>
+
+    <!-- SECCIÓN 3: LA CABAÑA EN LA TORMENTA DE NIEVE (HOMENAJE A LA ILÍADA) -->
+    <article class="gothic-card cabin-container">
+      <div class="corner-ornament top-left"></div>
+      <div class="corner-ornament top-right"></div>
+      <div class="corner-ornament bottom-left"></div>
+      <div class="corner-ornament bottom-right"></div>
+
+      <div class="section-title-wrap">
+        <h2 class="section-title">La Cabaña en la Tormenta de Nieve</h2>
+        <p class="section-subtitle">El Manuscrito Secreto</p>
+      </div>
+
+      <!-- Sello de Cera Interactivo -->
+      <div class="wax-seal-wrapper" onclick="toggleSecretScroll()">
+        <div class="wax-seal-btn">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
+          </svg>
+        </div>
+        <p class="seal-click-hint" id="seal-hint">Haz clic en el sello para romper la cera</p>
+      </div>
+
+      <!-- Pergamino Oculto -->
+      <div class="secret-scroll" id="secret-scroll">
+        <h3 class="scroll-salutation">Querida Helen,</h3>
+        <p class="scroll-body">
+          Mientras la ventisca de Moscú ruge inclemente al otro lado del cristal, aquí dentro, ante el calor del fuego, pienso en lo que significa encontrar en este mundo a esa persona que sostiene el alma propia.
+        </p>
+        <p class="scroll-body">
+          En la <em>Ilíada</em>, cuando Aquiles habla de Patroclo, no habla simplemente de un compañero; habla de su mitad inseparable, de aquel a quien amaba por encima de su propia vida, su refugio y su mayor certeza entre la tormenta. Así como Aquiles declaró que ni el tiempo ni la distancia podrían romper jamás ese lazo, yo encuentro en tu amistad ese mismo refugio incondicional.
+        </p>
+        <p class="scroll-body">
+          Eres mi persona más cercana, mi lugar seguro cuando todo afuera es caos y viento helado. No importa cuán difícil o fría se ponga la vida, sé que donde tú estés, siempre habrá un fuego encendido para resguardarnos.
+        </p>
+        <p class="scroll-body">
+          Gracias por ser mi lealtad, mi certeza y mi refugio incondicional.
+        </p>
+        <p class="scroll-signature">Por siempre y para siempre,<br>— Génesis</p>
+      </div>
+    </article>
+
+    <!-- SECCIÓN 4: TAROT GÓTICO CON NOMBRES EN LATÍN -->
+    <article class="gothic-card">
+      <div class="corner-ornament top-left"></div>
+      <div class="corner-ornament top-right"></div>
+      <div class="corner-ornament bottom-left"></div>
+      <div class="corner-ornament bottom-right"></div>
+
+      <div class="section-title-wrap">
+        <h2 class="section-title">Arcanos de la Amistad</h2>
+        <p class="section-subtitle">Descubre tus cartas de cumpleaños</p>
+      </div>
+
+      <div class="tarot-grid">
+        <!-- Carta 1: Imperium -->
+        <div class="tarot-card" onclick="this.classList.toggle('flipped')">
+          <div class="tarot-inner">
+            <div class="tarot-front">
+              <svg class="tarot-icon" viewBox="0 0 24 24">
+                <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+              </svg>
+              <h3 class="tarot-latin-title">Imperium</h3>
+              <p class="tarot-tap-hint">Toca para revelar</p>
+            </div>
+            <div class="tarot-back">
+              <p class="tarot-back-text">
+                Representa tu fuerza inquebrantable, la determinación para lograr cada meta que te propongas en tus 19 años y el brillo de una reina que nada ni nadie podrá apagar.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carta 2: Stella -->
+        <div class="tarot-card" onclick="this.classList.toggle('flipped')">
+          <div class="tarot-inner">
+            <div class="tarot-front">
+              <svg class="tarot-icon" viewBox="0 0 24 24">
+                <path d="M12 2l2.4 7.2h7.6l-6.2 4.5 2.4 7.3-6.2-4.5-6.2 4.5 2.4-7.3-6.2-4.5h7.6z"/>
+              </svg>
+              <h3 class="tarot-latin-title">Stella</h3>
+              <p class="tarot-tap-hint">Toca para revelar</p>
+            </div>
+            <div class="tarot-back">
+              <p class="tarot-back-text">
+                Simboliza la luz que traes a la vida de quienes te rodean, la calidez de tu presencia y la guía constante que guía nuestras risas en medio de cualquier noche oscura.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carta 3: Fatum -->
+        <div class="tarot-card" onclick="this.classList.toggle('flipped')">
+          <div class="tarot-inner">
+            <div class="tarot-front">
+              <svg class="tarot-icon" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+              <h3 class="tarot-latin-title">Fatum</h3>
+              <p class="tarot-tap-hint">Toca para revelar</p>
+            </div>
+            <div class="tarot-back">
+              <p class="tarot-back-text">
+                Un lazo predestinado por la eternidad. Dicta que no importa hacia dónde nos lleve el camino, nuestra amistad permanecerá siempre unida y protegida por el destino.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECCIÓN: FOTOS / GALERÍA DE RECUERDOS -->
+    <article class="gothic-card">
+      <div class="corner-ornament top-left"></div>
+      <div class="corner-ornament top-right"></div>
+      <div class="corner-ornament bottom-left"></div>
+      <div class="corner-ornament bottom-right"></div>
+
+      <div class="section-title-wrap">
+        <h2 class="section-title">Fotos</h2>
+        <p class="section-subtitle">Galería de Recuerdos Especiales</p>
+      </div>
+
+      <div class="photo-gallery-grid">
+        <div class="photo-card-frame" onclick="openLightboxByIndex(1)" title="Clic para ampliar">
+          <div class="photo-card-img-wrap">
+            <img src="WhatsApp Image 2026-10-09 at 10.28.11 AM.jpeg" alt="Foto de Helen 1" class="photo-card-img">
+            <div class="photo-card-overlay">🔍 Ampliar</div>
+          </div>
+        </div>
+
+        <div class="photo-card-frame" onclick="openLightboxByIndex(2)" title="Clic para ampliar">
+          <div class="photo-card-img-wrap">
+            <img src="WhatsApp Image 2026-10-09 at 10.28.11 AM (1).jpeg" alt="Foto de Helen 2" class="photo-card-img">
+            <div class="photo-card-overlay">🔍 Ampliar</div>
+          </div>
+        </div>
+
+        <div class="photo-card-frame" onclick="openLightboxByIndex(3)" title="Clic para ampliar">
+          <div class="photo-card-img-wrap">
+            <img src="WhatsApp Image 2026-10-09 at 10.28.11 AM (2).jpeg" alt="Foto de Helen 3" class="photo-card-img">
+            <div class="photo-card-overlay">🔍 Ampliar</div>
+          </div>
+        </div>
+
+        <div class="photo-card-frame" onclick="openLightboxByIndex(4)" title="Clic para ampliar">
+          <div class="photo-card-img-wrap">
+            <img src="WhatsApp Image 2026-10-09 at 10.28.11 AM (3).jpeg" alt="Foto de Helen 4" class="photo-card-img">
+            <div class="photo-card-overlay">🔍 Ampliar</div>
+          </div>
+        </div>
+
+        <div class="photo-card-frame" onclick="openLightboxByIndex(5)" title="Clic para ampliar">
+          <div class="photo-card-img-wrap">
+            <img src="WhatsApp Image 2026-10-09 at 10.28.12 AM.jpeg" alt="Foto de Helen 5" class="photo-card-img">
+            <div class="photo-card-overlay">🔍 Ampliar</div>
+          </div>
+        </div>
+
+        <div class="photo-card-frame" onclick="openLightboxByIndex(6)" title="Clic para ampliar">
+          <div class="photo-card-img-wrap">
+            <img src="WhatsApp Image 2026-10-09 at 10.28.12 AM (1).jpeg" alt="Foto de Helen 6" class="photo-card-img">
+            <div class="photo-card-overlay">🔍 Ampliar</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="main-footer">
+      <p>Diseñado especialmente para los 19 años de Helen — Creado con devoción por Génesis</p>
+    </footer>
+
+  </div>
+
+  <!-- ELEMENTO DE AUDIO DE FONDO -->
+  <audio id="bg-music" src="vals.mp3" loop preload="auto"></audio>
+
+  <!-- REPRODUCTOR DE MÚSICA FLOTANTE -->
+  <div class="music-player-widget" id="music-widget">
+    <div class="music-disc" id="music-disc"></div>
+    <div class="music-info">
+      <span class="music-title">Vals de Cumpleaños 🎶</span>
+      <div class="music-controls">
+        <button class="music-btn" id="play-pause-btn" onclick="toggleMusic()" title="Reproducir / Pausar">▶</button>
+        <div class="music-progress-container" onclick="seekMusic(event)" title="Adelantar / Retroceder">
+          <div class="music-progress-bar" id="music-bar"></div>
+        </div>
+        <button class="music-btn" id="mute-btn" onclick="toggleMute()" title="Silenciar / Activar sonido">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISOR LIGHTBOX PARA AMPLIAR FOTOGRAFÍAS CON NAVEGACIÓN -->
+  <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightboxDirect()">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1, event)">&#10094;</button>
+    <img src="" alt="Vista ampliada" class="lightbox-content" id="lightbox-img">
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1, event)">&#10095;</button>
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+
+  <!-- SCRIPT DE INTERACTIVIDAD Y EFECTOS -->
+  <script>
+    /* ==========================================================================
+       ANIMACIÓN DE CANVAS: NIEVE DE MOSCÚ Y PÉTALOS DE ROSA
+       ========================================================================== */
+    const canvas = document.getElementById('snow-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const particleCount = 65;
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * -height;
+        this.size = Math.random() * 3 + 1;
+        this.speedY = Math.random() * 1.2 + 0.5;
+        this.speedX = Math.sin(Math.random() * Math.PI) * 0.5;
+        this.type = Math.random() > 0.8 ? 'petal' : 'snow';
+        this.color = this.type === 'petal' ? '#9E1B32' : '#ffffff';
+        this.opacity = Math.random() * 0.7 + 0.3;
+        this.rotation = Math.random() * 360;
+        this.rotSpeed = (Math.random() - 0.5) * 2;
+      }
+
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.rotation += this.rotSpeed;
+
+        if (this.y > height) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.globalAlpha = this.opacity;
+
+        if (this.type === 'snow') {
+          ctx.beginPath();
+          ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.shadowBlur = 5;
+          ctx.shadowColor = '#D9BF84';
+          ctx.fill();
+        } else {
+          // Dibujar pétalo de rosa
+          ctx.beginPath();
+          ctx.ellipse(0, 0, this.size * 2, this.size * 3, Math.PI / 4, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+
+    /* ==========================================================================
+       INTERACTIVIDAD DEL MOUSE CON LAS PARTÍCULAS
+       ========================================================================== */
+    let mouseX = -1000;
+    let mouseY = -1000;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        mouseX = e.touches[0].clientX;
+        mouseY = e.touches[0].clientY;
+      }
+    });
+
+    /* Actualizar física de partículas con interacción del mouse */
+    const originalUpdate = Particle.prototype.update;
+    Particle.prototype.update = function() {
+      originalUpdate.call(this);
+
+      const dx = this.x - mouseX;
+      const dy = this.y - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        const force = (120 - dist) / 120;
+        this.x += (dx / dist) * force * 3;
+        this.y += (dy / dist) * force * 3;
+      }
+    };
+
+    /* ==========================================================================
+       CONTROL DE LA MÚSICA DE FONDO (VALS.MP3) Y PANTALLA DE ENTRADA
+       ========================================================================== */
+    const bgMusic = document.getElementById('bg-music');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const musicWidget = document.getElementById('music-widget');
+    const musicBar = document.getElementById('music-bar');
+    const muteBtn = document.getElementById('mute-btn');
+
+    function startExperience() {
+      const overlay = document.getElementById('welcome-overlay');
+      overlay.classList.add('hidden');
+
+      if (bgMusic) {
+        bgMusic.play().then(() => {
+          musicWidget.classList.add('playing');
+          playPauseBtn.innerText = '⏸';
+        }).catch(err => {
+          console.log('Autoplay interactivo:', err);
+        });
+      }
+    }
+
+    function toggleMusic() {
+      if (!bgMusic) return;
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicWidget.classList.add('playing');
+        playPauseBtn.innerText = '⏸';
+      } else {
+        bgMusic.pause();
+        musicWidget.classList.remove('playing');
+        playPauseBtn.innerText = '▶';
+      }
+    }
+
+    function toggleMute() {
+      if (!bgMusic) return;
+      bgMusic.muted = !bgMusic.muted;
+      muteBtn.innerText = bgMusic.muted ? '🔇' : '🔊';
+    }
+
+    function seekMusic(e) {
+      if (!bgMusic || !bgMusic.duration) return;
+      const container = e.currentTarget;
+      const rect = container.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percentage = clickX / rect.width;
+      bgMusic.currentTime = percentage * bgMusic.duration;
+    }
+
+    if (bgMusic) {
+      bgMusic.addEventListener('timeupdate', () => {
+        if (bgMusic.duration) {
+          const pct = (bgMusic.currentTime / bgMusic.duration) * 100;
+          musicBar.style.width = pct + '%';
+        }
+      });
+    }
+
+    /* ==========================================================================
+       VISOR DE IMAGEN AMPLIA (LIGHTBOX) CON NAVEGACIÓN Y TECLADO
+       ========================================================================== */
+    const galleryList = [
+      { src: "Imagen 1.jpg", caption: "Caesar Alexandrovich Sergeyev — Roses & Champagne" },
+      { src: "WhatsApp Image 2026-10-09 at 10.28.11 AM.jpeg", caption: "Fotos de Helen — Recuerdo 1" },
+      { src: "WhatsApp Image 2026-10-09 at 10.28.11 AM (1).jpeg", caption: "Fotos de Helen — Recuerdo 2" },
+      { src: "WhatsApp Image 2026-10-09 at 10.28.11 AM (2).jpeg", caption: "Fotos de Helen — Recuerdo 3" },
+      { src: "WhatsApp Image 2026-10-09 at 10.28.11 AM (3).jpeg", caption: "Fotos de Helen — Recuerdo 4" },
+      { src: "WhatsApp Image 2026-10-09 at 10.28.12 AM.jpeg", caption: "Fotos de Helen — Recuerdo 5" },
+      { src: "WhatsApp Image 2026-10-09 at 10.28.12 AM (1).jpeg", caption: "Fotos de Helen — Recuerdo 6" }
+    ];
+
+    let currentPhotoIndex = 0;
+
+    function openLightboxByIndex(idx) {
+      currentPhotoIndex = idx;
+      const item = galleryList[idx] || galleryList[0];
+      openLightbox(item.src, item.caption);
+    }
+
+    function openLightbox(src, caption) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      const cap = document.getElementById('lightbox-caption');
+
+      img.src = src;
+      cap.innerText = caption || '';
+      modal.classList.add('active');
+    }
+
+    function navigateLightbox(dir, e) {
+      if (e) e.stopPropagation();
+      currentPhotoIndex = (currentPhotoIndex + dir + galleryList.length) % galleryList.length;
+      const item = galleryList[currentPhotoIndex];
+      const img = document.getElementById('lightbox-img');
+      const cap = document.getElementById('lightbox-caption');
+      if (img && cap) {
+        img.src = item.src;
+        cap.innerText = item.caption;
+      }
+    }
+
+    function closeLightbox(e) {
+      if (e.target.id === 'lightbox-modal') {
+        document.getElementById('lightbox-modal').classList.remove('active');
+      }
+    }
+
+    function closeLightboxDirect() {
+      document.getElementById('lightbox-modal').classList.remove('active');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal && modal.classList.contains('active')) {
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+        if (e.key === 'Escape') closeLightboxDirect();
+      }
+    });
+
+    /* ==========================================================================
+       EFECTO DE DESCORCHE DE CHAMPÁN CON AUDIO SINTETIZADO (WEB AUDIO API)
+       ========================================================================== */
+    function playChampagneSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+
+        // Pop del corcho (Oscilador de frecuencia descendente rápida)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+
+        // Burbujeo efervescente (Ruido rosa/blanco con filtro)
+        setTimeout(() => {
+          const bufferSize = audioCtx.sampleRate * 1.5;
+          const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+          const data = buffer.getChannelData(0);
+
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+          }
+
+          const noise = audioCtx.createBufferSource();
+          noise.buffer = buffer;
+
+          const filter = audioCtx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.value = 3000;
+
+          const noiseGain = audioCtx.createGain();
+          noiseGain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+          noiseGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+          noise.connect(filter);
+          filter.connect(noiseGain);
+          noiseGain.connect(audioCtx.destination);
+
+          noise.start();
+        }, 100);
+
+      } catch (e) {
+        console.log('Audio no soportado o interactuado previamente.');
+      }
+    }
+
+    function celebratePop() {
+      // Bajar temporalmente el volumen de la música si está sonando
+      if (bgMusic && !bgMusic.paused) {
+        bgMusic.volume = 0.2;
+        setTimeout(() => {
+          let volInterval = setInterval(() => {
+            if (bgMusic.volume < 0.95) {
+              bgMusic.volume += 0.05;
+            } else {
+              bgMusic.volume = 1.0;
+              clearInterval(volInterval);
+            }
+          }, 100);
+        }, 1500);
+      }
+
+      playChampagneSound();
+
+      // Ráfaga intensificada de pétalos y confeti dorado en el canvas
+      for (let i = 0; i < 50; i++) {
+        const extraParticle = new Particle();
+        extraParticle.y = height * 0.6;
+        extraParticle.x = width * 0.5;
+        extraParticle.speedY = (Math.random() - 0.8) * 6;
+        extraParticle.speedX = (Math.random() - 0.5) * 8;
+        extraParticle.color = Math.random() > 0.5 ? '#D9BF84' : '#9E1B32';
+        particles.push(extraParticle);
+      }
+
+      const btn = document.getElementById('pop-champagne-btn');
+      btn.innerHTML = '✨ ¡Salud por Helen! ✨';
+      btn.style.background = 'linear-gradient(180deg, #D9BF84 0%, #a88d50 100%)';
+      btn.style.color = '#0D0D10';
+
+      setTimeout(() => {
+        btn.innerHTML = '🍾 Descorchar el Champán';
+        btn.style.background = 'linear-gradient(180deg, var(--rose-red) 0%, #6e1021 100%)';
+        btn.style.color = 'var(--champagne-bright)';
+      }, 4000);
+    }
+
+    /* ==========================================================================
+       DESPLEGAR SELLO DE CERA DE LA CABAÑA
+       ========================================================================== */
+    function toggleSecretScroll() {
+      const scroll = document.getElementById('secret-scroll');
+      const hint = document.getElementById('seal-hint');
+
+      if (scroll.classList.contains('open')) {
+        scroll.classList.remove('open');
+        hint.innerText = 'Haz clic en el sello para romper la cera';
+      } else {
+        scroll.classList.add('open');
+        hint.innerText = 'Cera rota — Manuscrito revelado';
+      }
+    }
+  </script>
+</body>
+</html>
